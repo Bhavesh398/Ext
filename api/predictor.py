@@ -11,9 +11,9 @@ import torch
 from typing import Dict, Any, Optional
 import sys
 sys.path.append(str(pathlib.Path(__file__).parent.parent))
+from transformers import DistilBertTokenizerFast
 
 from model.distilbert_classifier import PhishingClassifier, load_model
-from model.dataset import get_tokenizer
 from features.structural import extract_structural_features
 from features.text_preprocessor import format_for_bert
 from explainability.reasons import build_final_result
@@ -45,10 +45,9 @@ class PhishingPredictor:
         tokenizer_path = ROOT / CONFIG["paths"]["tokenizer"]
 
         logger.info(f"Loading tokenizer from {tokenizer_path}")
-        self.tokenizer = get_tokenizer()
+        self.tokenizer = self._build_tokenizer()
 
         if tokenizer_path.exists():
-            from transformers import DistilBertTokenizerFast
             self.tokenizer = DistilBertTokenizerFast.from_pretrained(str(tokenizer_path))
 
         logger.info(f"Loading model from {model_path} on {self.device}")
@@ -63,6 +62,12 @@ class PhishingPredictor:
         self.model.eval()
         self._loaded = True
         logger.info("✅ Model loaded successfully")
+
+    def _build_tokenizer(self) -> DistilBertTokenizerFast:
+        """Create base tokenizer with custom email tokens used by this model."""
+        tokenizer = DistilBertTokenizerFast.from_pretrained(CONFIG["model"]["base_model"])
+        tokenizer.add_special_tokens({"additional_special_tokens": ["[SUBJECT]", "[FROM]", "[BODY]", "[URL]"]})
+        return tokenizer
 
     def _tokenize(self, text: str) -> Dict[str, torch.Tensor]:
         """Tokenize input text for DistilBERT."""

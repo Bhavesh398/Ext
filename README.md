@@ -129,6 +129,8 @@ curl -X POST http://localhost:8000/analyze \
 
 If Railway shows `Error creating build plan with Railpack`, this repo includes a `Dockerfile` + `railway.json` so Railway can deploy with Docker instead of Railpack auto-detection.
 
+If Railway shows `Image size exceeded limit`, this Docker setup installs a slim API dependency set (`requirements.api.txt`) and CPU-only PyTorch for deployment.
+
 ```bash
 # Install Railway CLI
 npm install -g @railway/cli
