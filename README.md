@@ -127,6 +127,8 @@ curl -X POST http://localhost:8000/analyze \
 
 ## 🚢 Deploy to Railway
 
+If Railway shows `Error creating build plan with Railpack`, this repo includes a `Dockerfile` + `railway.json` so Railway can deploy with Docker instead of Railpack auto-detection.
+
 ```bash
 # Install Railway CLI
 npm install -g @railway/cli
