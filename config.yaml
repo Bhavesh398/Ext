@@ -1,0 +1,101 @@
+# PhishGuard ML Configuration
+
+model:
+  base_model: "distilbert-base-uncased"
+  max_length: 512
+  num_labels: 2
+  dropout: 0.3
+  hidden_size: 256
+
+training:
+  batch_size: 16
+  epochs: 3
+  learning_rate: 2.0e-5
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  gradient_clip: 1.0
+  early_stopping_patience: 2
+  log_every_steps: 100
+  mixed_precision: true
+  train_split: 0.70
+  val_split: 0.15
+  test_split: 0.15
+  random_seed: 42
+
+thresholds:
+  phishing: 70
+  suspicious: 60
+  safe: 0
+
+paths:
+  raw_data: "data/raw"
+  processed_data: "data/processed"
+  artifacts: "artifacts"
+  model: "artifacts/model"
+  tokenizer: "artifacts/tokenizer"
+  logs: "logs"
+
+inference:
+  max_inference_time_ms: 200
+  use_float16: false
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+  cors_origins: ["*"]
+
+urgent_keywords:
+  - "urgent"
+  - "immediately"
+  - "act now"
+  - "verify"
+  - "suspended"
+  - "locked"
+  - "unauthorized"
+  - "confirm your"
+  - "click here"
+  - "limited time"
+  - "expires"
+  - "unusual activity"
+  - "alert"
+  - "warning"
+  - "compromised"
+  - "update your"
+  - "account blocked"
+  - "security breach"
+  - "validate"
+  - "reactivate"
+
+suspicious_tlds:
+  - ".tk"
+  - ".ml"
+  - ".ga"
+  - ".cf"
+  - ".xyz"
+  - ".top"
+  - ".click"
+  - ".link"
+  - ".gq"
+  - ".pw"
+
+known_brands:
+  - "paypal"
+  - "amazon"
+  - "google"
+  - "apple"
+  - "microsoft"
+  - "netflix"
+  - "bank"
+  - "chase"
+  - "wells"
+  - "citibank"
+  - "facebook"
+  - "instagram"
+  - "twitter"
+  - "linkedin"
+  - "dropbox"
+  - "fedex"
+  - "ups"
+  - "dhl"
+  - "irs"
+  - "usps"
