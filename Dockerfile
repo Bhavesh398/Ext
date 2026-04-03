@@ -8,7 +8,7 @@ WORKDIR /app
 
 COPY requirements.api.txt ./
 RUN pip install --upgrade pip \
-    && pip install --index-url https://download.pytorch.org/whl/cpu torch==2.2.2+cpu \
+    && pip install --index-url https://download.pytorch.org/whl/cpu torch==2.4.1+cpu \
     && pip install -r requirements.api.txt
 
 COPY . .
